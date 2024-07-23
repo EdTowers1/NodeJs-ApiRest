@@ -6,8 +6,15 @@ const getAllWorkouts = (req, res) => {
 };
 
 const getOneWorkout = (req, res) => {
-    const OneWorkout = workoutService.getOneWorkout(req.params.workoutId);
-    res.send(`Get workout ${req.params.workoutId}`);
+    const {
+        params: { workoutId }
+    } = req;
+
+    if (!workoutId) {
+        return;
+    }
+    const OneWorkout = workoutService.getOneWorkout(workoutId);
+    res.send({ status: 'OK', data: OneWorkout });
 };
 
 const createNewWorkout = (req, res) => {
