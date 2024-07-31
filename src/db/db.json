@@ -65,7 +65,7 @@
       ]
     },
     {
-      "name": "Core Buster",
+      "name": "esto es una prueba",
       "mode": "AMRAP 20",
       "equipment": [
         "rack",
@@ -82,9 +82,9 @@
         "Go unbroken on the thrusters",
         "Take the abmat sit-ups as a chance to normalize your breath"
       ],
-      "id": "b675a5b9-6397-474e-a27f-d7e451961cd6",
-      "createdAt": "7/23/2024",
-      "updatedAt": "7/23/2024"
+      "id": "c968b680-8aaf-43c9-8dba-3c1c32ef962d",
+      "createdAt": "7/31/2024",
+      "updatedAt": "7/31/2024"
     }
   ]
 }

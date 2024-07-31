@@ -6,7 +6,7 @@ router
     .get('/', workoutController.getAllWorkouts)
     .get('/:workoutId', workoutController.getOneWorkout)
     .post('/', workoutController.createNewWorkout)
-    .put('/:workoutId', workoutController.updateOneWorkout)
+    .patch("/:workoutId", workoutController.updateOneWorkout)
     .delete('/:workoutId', workoutController.deleteOneWorkout);
 
 module.exports = router;
