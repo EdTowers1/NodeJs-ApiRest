@@ -85,6 +85,28 @@
       "id": "c968b680-8aaf-43c9-8dba-3c1c32ef962d",
       "createdAt": "7/31/2024",
       "updatedAt": "7/31/2024"
+    },
+    {
+      "name": "nombre de pruebas",
+      "mode": "en fase de pruebas 2",
+      "equipment": [
+        "rack",
+        "barbell",
+        "abmat"
+      ],
+      "exercises": [
+        "15 toes to bars",
+        "10 thrusters",
+        "30 abmat sit-ups"
+      ],
+      "trainerTips": [
+        "Split your toes to bars into two sets maximum",
+        "Go unbroken on the thrusters",
+        "Take the abmat sit-ups as a chance to normalize your breath"
+      ],
+      "id": "3ff63240-ef48-4c3d-93b8-45fe01cd0f3e",
+      "createdAt": "8/2/2024",
+      "updatedAt": "8/2/2024, 2:53:40 PM"
     }
   ]
 }

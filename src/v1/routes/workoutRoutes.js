@@ -1,6 +1,7 @@
 const express = require('express');
-const router = express.Router();
 const workoutController = require('../../controllers/workoutController');
+
+const router = express.Router();
 
 router
     .get('/', workoutController.getAllWorkouts)

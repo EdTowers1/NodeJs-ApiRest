@@ -48,17 +48,10 @@ const updateOneWorkout = (req, res) => {
       body,
       params: { workoutId },
     } = req;
-  
     if (!workoutId) {
-      return res.status(400).send({ status: "FAILED", data: "Workout ID is missing" });
+      return;
     }
-  
     const updatedWorkout = workoutService.updateOneWorkout(workoutId, body);
-  
-    if (!updatedWorkout) {
-      return res.status(404).send({ status: "FAILED", data: "Workout not found" });
-    }
-  
     res.send({ status: "OK", data: updatedWorkout });
   };
 

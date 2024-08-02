@@ -28,28 +28,21 @@ const getOneWorkout = (workoutId) => {
 }
 
 const updateOneWorkout = (workoutId, changes) => {
-    if (!Array.isArray(DB.workout)) {
-      throw new Error("DB.workout is not an array or is undefined");
-    }
-  
-    const indexForUpdate = DB.workout.findIndex(
-      (workout) => workout.id === workoutId
+    const indexForUpdate = DB.workouts.findIndex(
+        (workout) => workout.id === workoutId
     );
-  
     if (indexForUpdate === -1) {
-      return null; // o alguna otra indicación de que no se encontró
+        return;
     }
-  
     const updatedWorkout = {
-      ...DB.workout[indexForUpdate],
-      ...changes,
-      updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
+        ...DB.workouts[indexForUpdate],
+        ...changes,
+        updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
     };
-  
-    DB.workout[indexForUpdate] = updatedWorkout;
+    DB.workouts[indexForUpdate] = updatedWorkout;
     saveToDatabase(DB);
     return updatedWorkout;
-  };
+};
 
 const deleteOneWorkout = (workoutId) => {
     const indexForDeleltion = DB.workouts.findIndex(
