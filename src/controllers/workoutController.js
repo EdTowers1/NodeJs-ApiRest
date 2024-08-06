@@ -30,7 +30,6 @@ const createNewWorkout = (req, res) => {
             });
         return;
     }
-
     const newWorkout = {
         name: body.name,
         mode: body.mode,
@@ -38,22 +37,27 @@ const createNewWorkout = (req, res) => {
         exercises: body.exercises,
         trainerTips: body.trainerTips
     };
-
-    const createdWorkout = workoutService.createNewWorkout(newWorkout);
-    res.status(201).send({ status: 'OK', data: createdWorkout });
+    try {
+        const createdWorkout = workoutService.createNewWorkout(newWorkout);
+        res.status(201).send({ status: 'OK', data: createdWorkout });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: 'FAILED', data: { error: error?.message || error } });
+    }
 };
 
 const updateOneWorkout = (req, res) => {
     const {
-      body,
-      params: { workoutId },
+        body,
+        params: { workoutId },
     } = req;
     if (!workoutId) {
-      return;
+        return;
     }
     const updatedWorkout = workoutService.updateOneWorkout(workoutId, body);
     res.send({ status: "OK", data: updatedWorkout });
-  };
+};
 
 const deleteOneWorkout = (req, res) => {
     const {

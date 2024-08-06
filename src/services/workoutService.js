@@ -17,16 +17,20 @@ const createNewWorkout = (newWorkout) => {
         id: uuid(),
         createdAt: new Date().toLocaleDateString('en-US', { timeZone: 'UTC' }),
         updatedAt: new Date().toLocaleDateString('en-US', { timeZone: 'UTC' }),
-    }
+    };
 
-    const createdWorkout = workout.createNewWorkout(workoutToInsert);
-    return createdWorkout;
+    try {
+        const createdWorkout = Workout.createNewWorkout(workoutToInsert);
+        return createdWorkout;
+    } catch (error) {
+        throw error;
+    }
 };
 
 const updateOneWorkout = (workoutId, changes) => {
     const updatedWorkout = workout.updateOneWorkout(workoutId, changes);
     return updatedWorkout;
-  };
+};
 
 const deleteOneWorkout = (workoutId) => {
     workout.deleteOneWorkout(workoutId);
