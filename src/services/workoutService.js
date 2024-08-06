@@ -20,7 +20,7 @@ const createNewWorkout = (newWorkout) => {
     };
 
     try {
-        const createdWorkout = Workout.createNewWorkout(workoutToInsert);
+        const createdWorkout = workout.createNewWorkout(workoutToInsert);
         return createdWorkout;
     } catch (error) {
         throw error;
