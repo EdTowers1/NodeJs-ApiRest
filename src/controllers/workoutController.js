@@ -17,10 +17,22 @@ const getOneWorkout = (req, res) => {
     } = req;
 
     if (!workoutId) {
-        return;
+        res
+            .status(400)
+            .send({
+                status: "FAILED",
+                data: { error: "Parameter ':workoutId' can not be empty" },
+            });
     }
-    const OneWorkout = workoutService.getOneWorkout(workoutId);
-    res.send({ status: 'OK', data: OneWorkout });
+
+    try {
+        const OneWorkout = workoutService.getOneWorkout(workoutId);
+        res.send({ status: 'OK', data: OneWorkout });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILED", data: { error: error?.message || error } });
+    }
 };
 
 const createNewWorkout = (req, res) => {

@@ -3,64 +3,108 @@ const DB = require('./db.json');
 const { saveToDatabase } = require('./utils');
 
 const getAllWorkouts = () => {
-    return DB.workouts;
+
+    try {
+        return DB.workouts;
+    } catch (error) {
+        throw { status: 500, message: error };
+    }
 };
 
 const createNewWorkout = (newWorkout) => {
-    const isAlreadyAdded = DB.workouts.findIndex(
-        (workout) => workout.name == newWorkout.name) > -1
-
-    if (isAlreadyAdded) {
-        throw {
-            status: 400,
-            message: `Workout with the name '${newWorkout.name}' already exists`,
-        };
-    }
     try {
+        const isAlreadyAdded =
+            DB.workouts.findIndex(
+                (workout) => workout.name == newWorkout.name) > -1
+
+        if (isAlreadyAdded) {
+            throw {
+                status: 400,
+                message: `Workout with the name '${newWorkout.name}' already exists`,
+            };
+        }
+
         DB.workouts.push(newWorkout);
         saveToDatabase(DB);
         return newWorkout;
     } catch (error) {
-        throw { status: 500, message: error?.message || error };
+        throw { status: error?.status || 500, message: error?.message || error };
     }
 };
 
 const getOneWorkout = (workoutId) => {
-    const workout = DB.workouts.find((workout) => workout.id === workoutId);
-    if (!workout) {
-        return;
+
+    try {
+        const workout = DB.workouts.find((workout) => workout.id === workoutId);
+
+        if (!workout) {
+            throw {
+                status: 400,
+                message: `Can't find workout with the id '${workoutId}'`,
+            };
+        }
+        return workout;
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error }
     }
-    return workout;
-}
+};
 
 const updateOneWorkout = (workoutId, changes) => {
-    const indexForUpdate = DB.workouts.findIndex(
-        (workout) => workout.id === workoutId
-    );
-    if (indexForUpdate === -1) {
-        return;
+
+    try {
+        const isAlreadyAdded =
+            DB.workouts.findIndex((workout) => workout.name === changes.name) > -1;
+
+        if (isAlreadyAdded) {
+            throw {
+                status: 400,
+                message: `Workout with the name '${changes.name}' already exists`,
+            };
+        }
+
+        const indexForUpdate = DB.workouts.findIndex(
+            (workout) => workout.id === workoutId
+        );
+
+        if (indexForUpdate === -1) {
+            throw {
+                status: 400,
+                message: `Can't find workout with the id '${workoutId}'`,
+            };
+        }
+
+        const updatedWorkout = {
+            ...DB.workouts[indexForUpdate],
+            ...changes,
+            updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
+        };
+        DB.workouts[indexForUpdate] = updatedWorkout;
+        saveToDatabase(DB);
+        return updatedWorkout;
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
     }
-    const updatedWorkout = {
-        ...DB.workouts[indexForUpdate],
-        ...changes,
-        updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
-    };
-    DB.workouts[indexForUpdate] = updatedWorkout;
-    saveToDatabase(DB);
-    return updatedWorkout;
 };
 
 const deleteOneWorkout = (workoutId) => {
-    const indexForDeleltion = DB.workouts.findIndex(
-        (workout) => workout.id === workoutId
-    );
 
-    if (indexForDeleltion === -1) {
-        return;
+    try {
+        const indexForDeleltion = DB.workouts.findIndex(
+            (workout) => workout.id === workoutId
+        );
+
+        if (indexForDeleltion === -1) {
+            throw {
+                status: 400,
+                message: `Can't find workout with the id '${workoutId}'`,
+            };
+        }
+
+        DB.workouts.splice(indexForDeleltion, 1);
+        saveToDatabase(DB);
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
     }
-
-    DB.workouts.splice(indexForDeleltion, 1);
-    saveToDatabase(DB);
 }
 
 module.exports = {
