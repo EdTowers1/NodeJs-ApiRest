@@ -11,6 +11,7 @@ const cache = apicache.middleware;
  * @openapi
  * /api/v1/workouts:
  *   get:
+ *     summary: Obtener todos los Workouts
  *     tags:
  *       - Workouts
  *     parameters:
@@ -51,14 +52,44 @@ const cache = apicache.middleware;
  *                       type: string 
  *                       example: "Some error message"
  */
+router.get("/", cache("2 minutes"), workoutController.getAllWorkouts);
 
-router
-  .get("/", cache("2 minutes"), workoutController.getAllWorkouts)
-  // .get("/", workoutController.getAllWorkouts)
-  .get("/:workoutId", workoutController.getOneWorkout)
-  .get("/:workoutId/records", recordController.getRecordForWorkout)
-  .post("/", workoutController.createNewWorkout)
-  .patch("/:workoutId", workoutController.updateOneWorkout)
-  .delete("/:workoutId", workoutController.deleteOneWorkout);
+
+/**
+ * @openapi
+ * /api/v1/workouts/{workoutId}:
+ *   get:
+ *    summary: Obtener Workout por ID
+ *    tags:
+ *       - Workouts
+ *    parameters:
+ *       - in: path
+ *         name: workoutId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The mode of a workout
+ *    responses:
+ *      200:
+ *        description: OK
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/Workout"
+ *      404:
+ *        description: Workout not found
+ *      500:
+ *        description: Server error
+ *      
+ */
+router.get("/:workoutId", workoutController.getOneWorkout);
+
+router.get("/:workoutId/records", recordController.getRecordForWorkout);
+
+router.post("/", workoutController.createNewWorkout);
+
+router.patch("/:workoutId", workoutController.updateOneWorkout);
+
+router.delete("/:workoutId", workoutController.deleteOneWorkout);
 
 module.exports = router;
