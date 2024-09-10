@@ -6,7 +6,7 @@ const options = {
         openapi: "3.0.0",
         info: { title: "Crossfit NodeJs API", version: "1.0.0" },
     },
-    apis: ["./src/v1/routes/workoutRoutes.js", "./src/db/Workout.js"],
+    apis: ["./src/v1/routes/workoutRoutes.js", "./src/db/Workout.js", "./src/db/Record.js"],
 };
 
 

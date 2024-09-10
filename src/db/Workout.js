@@ -40,7 +40,6 @@ const { saveToDatabase } = require("./utils");
  *             type: string
  *           example: ["Split the 21 thrusters as needed", "Try to do the 9 and 6 thrusters unbroken", "RX Weights: 115lb/75lb"]
  */
-
 const getAllWorkouts = (filterParams) => {
   try {
     let workouts = DB.workouts;

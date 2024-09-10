@@ -3,7 +3,6 @@ const apicache = require("apicache");
 const workoutController = require("../../controllers/workoutController");
 const recordController = require("../../controllers/recordController");
 
-
 const router = express.Router();
 const cache = apicache.middleware;
 
@@ -54,7 +53,6 @@ const cache = apicache.middleware;
  */
 router.get("/", cache("2 minutes"), workoutController.getAllWorkouts);
 
-
 /**
  * @openapi
  * /api/v1/workouts/{workoutId}:
@@ -68,7 +66,7 @@ router.get("/", cache("2 minutes"), workoutController.getAllWorkouts);
  *         required: true
  *         schema:
  *           type: string
- *         description: The mode of a workout
+ *         description: The ID of a workout
  *    responses:
  *      200:
  *        description: OK
@@ -84,6 +82,33 @@ router.get("/", cache("2 minutes"), workoutController.getAllWorkouts);
  */
 router.get("/:workoutId", workoutController.getOneWorkout);
 
+/**
+ * @openapi
+ * /api/v1/workouts/{workoutId}/records:
+ *   get:
+ *    summary: Obtener records de un Workout por ID
+ *    tags:
+ *       - Workouts
+ *    parameters:
+ *       - in: path
+ *         name: workoutId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of a workout
+ *    responses:
+ *      200:
+ *        description: OK
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/Record"
+ *      404:
+ *        description: Workout not found
+ *      500:
+ *        description: Server error
+ *  
+ */
 router.get("/:workoutId/records", recordController.getRecordForWorkout);
 
 router.post("/", workoutController.createNewWorkout);
