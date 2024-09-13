@@ -111,6 +111,33 @@ router.get("/:workoutId", workoutController.getOneWorkout);
  */
 router.get("/:workoutId/records", recordController.getRecordForWorkout);
 
+/**
+ * @openapi
+ * /api/v1/workouts:
+ *   post:
+ *    summary: Agregar un nuevo workout
+ *    tags: 
+ *       - Workouts
+ *    description: Agregar un nuevo workout
+ *    requestBody:
+ *      description: Crear un nuevo workout
+ *      content:
+ *         application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/Workout"
+ *      required: true
+ *    responses:
+ *      200:
+ *        description: Workout creado con éxito
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/Workout"
+ *      404:
+ *        description: Workout not found
+ *      500:
+ *        description: Server error
+ */
 router.post("/", workoutController.createNewWorkout);
 
 router.patch("/:workoutId", workoutController.updateOneWorkout);

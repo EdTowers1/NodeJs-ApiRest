@@ -26,17 +26,7 @@ const DB = require('./db.json');
  *         member:
  *           type: string
  *           description: The URI of the member (optional)
- *           example: /members/:memberId
- *         createdAt:
- *           type: string
- *           format: date-time
- *           description: The date when the record was created
- *           example: 4/20/2022, 2:21:56 PM
- *         updatedAt:
- *           type: string
- *           format: date-time
- *           description: The date when the record was last updated
- *           example: 4/20/2022, 2:21:56 PM
+ *           example: /members/:memberId       
  */
 const getRecordForWorkout = (workoutId) => {
     try {
