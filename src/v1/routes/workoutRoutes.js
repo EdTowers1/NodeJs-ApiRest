@@ -13,15 +13,16 @@ const cache = apicache.middleware;
  *     summary: Obtener todos los Workouts
  *     tags:
  *       - Workouts
+ *     description: Obtiene una lista de todos los workouts. Puedes filtrar los resultados por el parámetro `mode` (e.g., "For Time", "AMRAP"). Este endpoint soporta el uso de caché por 2 minutos.
  *     parameters:
  *       - in: query
  *         name: mode
  *         schema:
  *           type: string
- *         description: The mode of a workout
+ *         description: El modo de un workout (e.g., "For Time", "AMRAP")
  *     responses:
  *       200:
- *         description: OK
+ *         description: Lista de workouts obtenida exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -34,8 +35,8 @@ const cache = apicache.middleware;
  *                   type: array 
  *                   items: 
  *                     $ref: "#/components/schemas/Workout"
- *       5XX:
- *         description: FAILED
+ *       400:
+ *         description: Solicitud inválida (parámetros de consulta incorrectos)
  *         content:
  *           application/json:
  *             schema:
@@ -43,13 +44,28 @@ const cache = apicache.middleware;
  *               properties:
  *                 status: 
  *                   type: string
- *                   example: FAILED
+ *                   example: "FAILED"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string                     
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status: 
+ *                   type: string
+ *                   example: "FAILED"
  *                 data:
  *                   type: object
  *                   properties:
  *                     error:
  *                       type: string 
- *                       example: "Some error message"
+ *                       example: "Internal Server Error"
  */
 router.get("/", cache("2 minutes"), workoutController.getAllWorkouts);
 
@@ -57,28 +73,73 @@ router.get("/", cache("2 minutes"), workoutController.getAllWorkouts);
  * @openapi
  * /api/v1/workouts/{workoutId}:
  *   get:
- *    summary: Obtener Workout por ID
- *    tags:
+ *     summary: Obtener un Workout por su ID
+ *     tags:
  *       - Workouts
- *    parameters:
+ *     description: Obtiene los detalles de un workout específico utilizando su ID único.
+ *     parameters:
  *       - in: path
  *         name: workoutId
  *         required: true
  *         schema:
  *           type: string
- *         description: The ID of a workout
- *    responses:
- *      200:
- *        description: OK
- *        content:
- *          application/json:
- *            schema:
- *              $ref: "#/components/schemas/Workout"
- *      404:
- *        description: Workout not found
- *      500:
- *        description: Server error
- *      
+ *         description: El ID único del workout que se desea obtener.
+ *         example: "d8be2362-7b68-4ea4-a1f6-03f8bc4eede7"
+ *     responses:
+ *       200:
+ *         description: Workout obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Workout"             
+ *       400:
+ *         description: Solicitud inválida, el ID del workout está mal formateado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status: 
+ *                   type: string
+ *                   example: "FAILED"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "Invalid workout ID format"
+ *       404:
+ *         description: No se encontró el workout con el ID especificado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status: 
+ *                   type: string
+ *                   example: "FAILED"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "Workout not found"
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status: 
+ *                   type: string
+ *                   example: "FAILED"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "Internal server error"
  */
 router.get("/:workoutId", workoutController.getOneWorkout);
 
